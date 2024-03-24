@@ -22,6 +22,16 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'password' => 'hash',
+        'password' => 'hashed',
     ];
+
+    public function reviewsWritten()
+    {
+        return $this->hasMany(Review::class, 'reviewer_id');
+    }
+
+    public function reviewsReceived()
+    {
+        return $this->hasMany(Review::class, 'reviewee_id');
+    }
 }
