@@ -4,6 +4,7 @@ created by Niozk.
 Front-end
 ---
 -Nuxt.js
+-Pinia
 -Quasar
 
 Back-end (using docker)
