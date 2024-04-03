@@ -1,13 +1,11 @@
 <template>
-  <div>
-    
-  </div>
+  <p>HEY2</p>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 
 </script>
 
-<style>
+<style scoped>
 
 </style>

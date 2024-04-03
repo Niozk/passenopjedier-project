@@ -1,5 +1,9 @@
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+  <nav>NAV</nav>
+  <NuxtLayout>
+    <NuxtPage/>
+  </NuxtLayout>
 </template>
+
+<style scoped>
+</style>
