@@ -1,5 +1,5 @@
 <template>
-  <p>INDEX</p>
+    pet-sitter page
 </template>
 
 <script setup>

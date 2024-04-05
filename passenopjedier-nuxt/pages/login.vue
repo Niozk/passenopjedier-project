@@ -1,5 +1,5 @@
 <template>
-  <p>INDEX</p>
+    login page
 </template>
 
 <script setup>

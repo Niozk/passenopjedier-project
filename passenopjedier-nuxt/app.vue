@@ -4,6 +4,7 @@
     <NuxtPage/>
     <h1>hey</h1> <!--TEST-->
   </NuxtLayout>
+  <Footer/>
 </template>
 
 <style scoped>

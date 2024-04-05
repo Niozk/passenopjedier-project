@@ -1,5 +1,5 @@
 <template>
-  <p>INDEX</p>
+    ad _ID PAGE
 </template>
 
 <script setup>

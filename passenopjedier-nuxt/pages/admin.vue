@@ -1,5 +1,5 @@
 <template>
-  <p>INDEX</p>
+    ADMIIIIIIIIIIIIIN
 </template>
 
 <script setup>

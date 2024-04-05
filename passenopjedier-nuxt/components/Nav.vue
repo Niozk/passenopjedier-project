@@ -2,17 +2,17 @@
     <div class="nav-class">
         <nav>
             <ul class="nav-list-1">
-                <li class="logo"><a href="#"><img src="../public/logo-light.png" alt="Logo of site"></a></li>
+                <li class="logo"><NuxtLink to="/"><img src="../public/logo-light.png" alt="Logo of site"></NuxtLink></li>
             </ul>
             <ul class="nav-list-2" v-if="store.isNavVisible">
-                <li v-for="item in navList2Items" :key="item"><a :href="item.href">{{ item.text }}</a></li>
+                <li v-for="item in navList2Items" :key="item"><NuxtLink :to="item.href">{{ item.text }}</NuxtLink></li>
             </ul>
             <ul class="nav-list-3" v-if="store.isNavVisible">
-                <li><a class="place-ad-button fa-solid fa-thumbtack" href="#appointment-section"></a></li>
-                <li><a href=""><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src="../public/test-image.jpg"></q-avatar></a></li>
+                <li><NuxtLink class="place-ad-button fa-solid fa-thumbtack" :to="navList2Items[1].href"></NuxtLink></li>
+                <li><NuxtLink :to="accountHref.href"><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src="../public/test-image.jpg"></q-avatar></NuxtLink></li>
             </ul>
             <div class="nav-list-4" v-if="!store.isNavVisible">
-                <a href=""><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src="../public/test-image.jpg"></q-avatar></a>
+                <NuxtLink :to="accountHref.href"><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src="../public/test-image.jpg"></q-avatar></NuxtLink>
                 <button class="open-button fa-solid fa-bars" style="color: #ffffff;" id="open-button" @click="openSidemenu()"></button>
             </div>
         </nav>
@@ -20,7 +20,7 @@
     <aside id="sidemenu">
         <button class="close-button" @click="closeSidemenu()">&times;</button>
         <ul>
-            <li v-for="item in navList2Items" :key="item"><a :href="item.href">{{ item.text }}</a></li>
+            <li v-for="item in navList2Items" :key="item"><NuxtLink :to="item.href">{{ item.text }}</NuxtLink></li>
         </ul>
     </aside>
 </template>
@@ -32,11 +32,16 @@ import { useStore } from '@/stores/store.js'
 const store = useStore();
 
 const navList2Items = ref([
-    {text: 'Place ad', href: ''},
-    {text: 'hey1', href: '#working-section'},
-    {text: 'hey1', href: ''},
-    {text: 'hey1', href: '#appointment-section'}
+    {text: 'Home', href: '/'},
+    {text: 'Plaats Advertentie', href: 'place-ad'},
+    {text: 'Zoek', href: 'search'},
+    {text: 'Login', href: 'login'} // register gaat vanaf login page
+    // voeg toe admin page die alleen gezien kan worden met admin powers (via boolean)
 ])
+
+const accountHref = ref({
+    href: 'account-[]'
+})
 
 onMounted(() => {
     closeSidemenuOnClick();

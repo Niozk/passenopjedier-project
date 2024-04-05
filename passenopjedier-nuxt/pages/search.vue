@@ -1,5 +1,5 @@
 <template>
-  <p>INDEX</p>
+    search page
 </template>
 
 <script setup>

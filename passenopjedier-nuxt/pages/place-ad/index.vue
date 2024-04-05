@@ -1,5 +1,5 @@
 <template>
-  <p>INDEX</p>
+    INDEX VAN PLACE-AD.VUE
 </template>
 
 <script setup>

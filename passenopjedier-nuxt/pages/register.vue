@@ -1,5 +1,5 @@
 <template>
-  <p>INDEX</p>
+    regristatie page
 </template>
 
 <script setup>
