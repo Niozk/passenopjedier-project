@@ -33,9 +33,9 @@ const store = useStore();
 
 const navList2Items = ref([
     {text: 'Home', href: '/'},
-    {text: 'Plaats Advertentie', href: 'place-ad'},
-    {text: 'Zoek', href: 'search'},
-    {text: 'Login', href: 'login'} // register gaat vanaf login page
+    {text: 'Plaats Advertentie', href: '/place-ad'},
+    {text: 'Zoek', href: '/search'},
+    {text: 'Login', href: '/login'} // register gaat vanaf login page
     // voeg toe admin page die alleen gezien kan worden met admin powers (via boolean)
 ])
 
