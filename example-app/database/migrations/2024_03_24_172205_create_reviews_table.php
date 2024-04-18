@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id('review_id');
             $table->foreignId('reviewer_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('reviewee_id')->constrained('users')->onDelete('cascade');
-            $table->unsignedTinyInteger('rating');
             $table->text('description')->nullable();
             $table->timestamp('date_created')->useCurrent();
             $table->timestamps();

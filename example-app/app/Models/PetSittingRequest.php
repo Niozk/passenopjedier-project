@@ -18,5 +18,6 @@ class PetSittingRequest extends Model
         'start_date',
         'end_date',
         'hourly_rate',
+        'picture',
     ];
 }
