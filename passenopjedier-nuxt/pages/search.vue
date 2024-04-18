@@ -6,20 +6,43 @@
                     <q-icon name="search" />
                 </template>
             </q-input>
-            <FilterModal />
+            <section class="filters" v-if="!store.isNavVisible">
+                <q-option-group v-model="group" :options="options" color="green" type="checkbox" />
+                <div class="pet-sitting-request-exclusive">
+                    <q-input filled label="Dier" :dense="dense" />
+                    <q-input filled label="Ras" :dense="dense" />
+                    <q-input filled label="Leeftijd" type="number" :dense="dense" />
+                </div>
+            </section>
         </section>
-        <section class="filters">
-            hey
+        <section class="filters" v-if="store.isNavVisible">
+            <q-option-group v-model="group" :options="options" color="green" type="checkbox" />
+            <div class="pet-sitting-request-exclusive">
+                <q-input filled label="Dier" :dense="dense" />
+                <q-input filled label="Ras" :dense="dense" />
+                <q-input filled label="Leeftijd" type="number" :dense="dense" />
+            </div>
         </section>
         <section class="ads">
-            <p>TESTTESTTEST</p>
-            <p>testesttest</p>
+            <AdSearch />
+            <AdSearch />
             <!-- miss infinite scroll -->
         </section>
     </section>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useStore } from '@/stores/store.js'
+
+const store = useStore();
+
+const group = ref(['op1'])
+
+const options = [
+    { label: 'Huisdier', value: 'op1' },
+    { label: 'Oppas', value: 'op2' }
+]
 </script>
 
 <style scoped>
@@ -35,7 +58,8 @@
 
 .search-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
     margin: 50px 0;
     padding: 0 20px 0 40px;
@@ -44,6 +68,9 @@
 }
 
 .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     max-width: 250px;
     border: 1px solid var(--letter-color-dark);
 
@@ -53,11 +80,18 @@
 .ads {
     display: flex;
     flex-direction: column;
+    gap: 40px;
     padding: 20px;
     margin: 0 80px 0 0;
     border: 1px solid var(--letter-color-dark);
 
     grid-area: ads;
+}
+
+.pet-sitting-request-exclusive {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 
@@ -72,14 +106,17 @@ and (max-width: 950px) {
             "ads ads ads";
     }
 
-    .filters {
-        display: none;
-    }
-
     .ads {
         justify-self: center;
+        width: 400px;
         margin: 0;
     }
+}
 
+@media only screen 
+and (max-width: 450px) {
+    .ads {
+        width: 300px;
+    }
 }
 </style>

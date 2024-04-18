@@ -1,4 +1,4 @@
-<template> <!--SLIDE SHOW TOEVOEGE-->
+<template>
     <section class="container">
         <div class="ad-head">
             <h1 class="name">Naam</h1>
@@ -21,9 +21,7 @@
                     </p>
                 </div>
             </div>
-            <div class="accept">
-                <button>Accepteer</button>
-            </div>
+            <ReviewModal />
         </div>
     </section>
 </template>
@@ -78,13 +76,6 @@ const slide = ref(1);
 .ad-detail-text {
     width: 450px;
 }
-
-.accept {
-    display: flex;
-    margin: 0 auto;
-    background-color: var(--secondary-color);
-}
-
 
 @media only screen 
 and (max-width: 800px) {

@@ -19,6 +19,7 @@ const linkList = ref([
 
 <style scoped>
 footer {
+    margin: 200px 0 0 0;
     padding: 120px 0 200px 150px;
     white-space: nowrap;
     background-color: var(--primary-color);

@@ -45,9 +45,7 @@
                     </p>
                 </div>
             </div>
-            <div class="accept">
-                <button>Accepteer</button>
-            </div>
+            <ReviewModal />
         </div>
     </section>
 </template>
@@ -98,12 +96,6 @@
 
 .ad-detail-text {
     width: 450px;
-}
-
-.accept {
-    display: flex;
-    margin: 0 auto;
-    background-color: var(--secondary-color);
 }
 
 

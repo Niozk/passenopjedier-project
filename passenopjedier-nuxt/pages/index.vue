@@ -4,9 +4,9 @@
     <p>Vind gemakkelijk een oppas voor jouw huisdier</p>
   </section>
   <section class="top-ads">
-    <p>TESTTESTTEST</p>
-    <p>testesttest</p>
-    <!-- miss infinite scroll -->
+    <AdIndex />
+    <AdIndex />
+    <!-- HARD CODE HIER PAAR TOP POSTS -->
   </section>
 </template>
 
@@ -38,14 +38,13 @@
 .top-ads {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 40px;
   margin: 80px auto 0 auto;
   padding: 20px;
   max-width: 500px;
   border: 1px solid var(--letter-color-dark)
 }
-
 
 @media only screen 
 and (max-width: 950px) {
