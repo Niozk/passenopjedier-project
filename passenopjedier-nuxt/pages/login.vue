@@ -30,6 +30,8 @@ const submitForm = async () => {
 
         // const userData = await $fetch(`/api/1`, {});
         // console.log(userData)
+        await navigateTo('/')
+        return window.location.reload();
     } catch (error) {
         console.error('Error occurred:', error);
     }

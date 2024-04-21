@@ -19,3 +19,13 @@ use App\Http\Controllers\UserController;
 Route::resource('users', UserController::class);
 Route::post('/users/register', [UserController::class, 'register']);
 Route::post('/users/login', [UserController::class, 'login']);
+
+Route::get('/uploads/profile-pictures/{filename}', function ($filename) {
+    $path = public_path('uploads/profile-pictures/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+});

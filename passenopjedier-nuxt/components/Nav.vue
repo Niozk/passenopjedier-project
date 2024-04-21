@@ -10,10 +10,10 @@
             <ul class="nav-list-3" v-if="store.isNavVisible">
                 <li v-if="loggedIn"><button @click="logOut">Log out</button></li>
                 <li><NuxtLink class="place-ad-button fa-solid fa-thumbtack" :to="navList2Items[1].href"></NuxtLink></li>
-                <li><NuxtLink :to="accountHref.href"><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src="../public/test-image.jpg"></q-avatar></NuxtLink></li>
+                <li><NuxtLink :to="accountHref.href"><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img :src="profilePicture"></q-avatar></NuxtLink></li>
             </ul>
             <div class="nav-list-4" v-if="!store.isNavVisible">
-                <NuxtLink :to="accountHref.href"><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src="../public/test-image.jpg"></q-avatar></NuxtLink>
+                <NuxtLink :to="accountHref.href"><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img :src="profilePicture"></q-avatar></NuxtLink>
                 <button class="open-button fa-solid fa-bars" style="color: #ffffff;" id="open-button" @click="openSidemenu()"></button>
             </div>
         </nav>
@@ -37,24 +37,41 @@ const navList2Items = ref([
     {text: 'Home', href: '/'},
     {text: 'Plaats Advertentie', href: '/place-ad'},
     {text: 'Zoek', href: '/search'},
-    {text: 'Login', href: '/login'} // register gaat vanaf login page
-    // voeg toe admin page die alleen gezien kan worden met admin powers (via boolean)
+    {text: 'Login', href: '/login'}
 ])
 
 const accountHref = ref({
     href: 'account-[]'
 })
-
+const profilePicture = ref('');
 const loggedIn = ref(false)
+
 onMounted(() => {
     loggedIn.value = localStorage.getItem('authenticated') === 'true';
     closeSidemenuOnClick();
+    getProfilePicture();
 });
 
 function logOut() {
     localStorage.setItem('authenticated', 'false');
+    localStorage.removeItem('user');
     window.location.reload();
 }
+
+const getProfilePicture = async () => {
+    try {
+        const user = ref(JSON.parse(localStorage.getItem('user')));
+        const profilePictureUrl = ref(user.value.profile_picture);
+
+        const userData = await $fetch(`/api/${profilePictureUrl.value}`, {});
+
+        const blob = new Blob([userData]);
+        profilePicture.value = URL.createObjectURL(blob);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
 
 function openSidemenu() {
     const sidemenu = document.getElementById("sidemenu");
@@ -84,7 +101,6 @@ function closeSidemenuOnClick() {
         }
     })
 }
-
 </script>
 
 <style scoped>

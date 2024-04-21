@@ -43,7 +43,7 @@ const submitForm = async () => {
         body: data,
     })
 
-    return navigateTo('/')
+    return navigateTo('/login')
 };
 </script>
 
