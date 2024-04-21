@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   css: ['~/public/main.css'],
   modules: [
     '@pinia/nuxt',
-    'nuxt-quasar-ui'
+    'nuxt-quasar-ui',
   ],
   quasar: {
     plugins: [

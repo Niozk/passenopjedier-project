@@ -8,6 +8,7 @@
                 <li v-for="item in navList2Items" :key="item"><NuxtLink :to="item.href">{{ item.text }}</NuxtLink></li>
             </ul>
             <ul class="nav-list-3" v-if="store.isNavVisible">
+                <li v-if="loggedIn"><button @click="logOut">Log out</button></li>
                 <li><NuxtLink class="place-ad-button fa-solid fa-thumbtack" :to="navList2Items[1].href"></NuxtLink></li>
                 <li><NuxtLink :to="accountHref.href"><q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src="../public/test-image.jpg"></q-avatar></NuxtLink></li>
             </ul>
@@ -21,6 +22,7 @@
         <button class="close-button" @click="closeSidemenu()">&times;</button>
         <ul>
             <li v-for="item in navList2Items" :key="item"><NuxtLink :to="item.href">{{ item.text }}</NuxtLink></li>
+            <li v-if="loggedIn"><button @click="logOut">Log out</button></li>
         </ul>
     </aside>
 </template>
@@ -43,9 +45,16 @@ const accountHref = ref({
     href: 'account-[]'
 })
 
+const loggedIn = ref(false)
 onMounted(() => {
+    loggedIn.value = localStorage.getItem('authenticated') === 'true';
     closeSidemenuOnClick();
 });
+
+function logOut() {
+    localStorage.setItem('authenticated', 'false');
+    window.location.reload();
+}
 
 function openSidemenu() {
     const sidemenu = document.getElementById("sidemenu");

@@ -1,13 +1,12 @@
 <template>
     <div class="register-container">
         <h1>Registreer</h1>
-        <form action="#">
-            <q-input filled size="40px" label="Gebruikersnaam"/>
-            <q-input filled size="40px" label="E-mail" type="email"/>
-            <q-input filled size="40px" label="Wachtwoord" type="password"/>
+        <form @submit.prevent="submitForm">
+            <q-input v-model="formData.name" filled size="40px" label="Gebruikersnaam"/>
+            <q-input v-model="formData.email" filled size="40px" label="E-mail" type="email"/>
+            <q-input v-model="formData.password" filled size="40px" label="Wachtwoord" type="password"/>
             <div class="avatar-container">
-                <q-avatar size="60px" style="border: 1px solid var(--secondary-color)"><img src=""></q-avatar>
-                <q-file outlined label="Upload foto">
+                <q-file v-model="formData.profile_picture" outlined label="Upload foto">
                     <template v-slot:prepend>
                         <q-icon name="attach_file" />
                     </template>
@@ -19,7 +18,33 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 
+const formData = ref({
+    name: '',
+    email: '',
+    password: '',
+    profile_picture: null
+});
+
+const submitForm = async () => {
+    const data = new FormData();
+    
+    data.append('name', formData.value.name);
+    data.append('email', formData.value.email);
+    data.append('password', formData.value.password);
+
+    if (formData.value.profile_picture != null) {
+        data.append('profile_picture', formData.value.profile_picture);
+    }
+
+    await $fetch('/api/register', {
+        method: 'POST',
+        body: data,
+    })
+
+    return navigateTo('/')
+};
 </script>
 
 <style scoped>

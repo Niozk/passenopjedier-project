@@ -1,9 +1,9 @@
 <template>
     <div class="login-container">
         <h1>Login</h1>
-        <form action="#">
-            <q-input filled size="40px" label="E-mail" type="email"/>
-            <q-input filled size="40px" label="Wachtwoord" type="password"/>
+        <form @submit.prevent="submitForm">
+            <q-input v-model="formData.email" filled size="40px" label="E-mail" type="email"/>
+            <q-input v-model="formData.password" filled size="40px" label="Wachtwoord" type="password"/>
             <button type="submit">Login</button>
             <NuxtLink to="/register">Nog geen account?</NuxtLink>
         </form>
@@ -11,6 +11,29 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+const formData = ref({
+    email: '',
+    password: '',
+});
+
+const submitForm = async () => {
+    try {
+        const loginResult = await $fetch('/api/login', {
+            method: 'POST',
+            body: JSON.stringify(formData.value),
+        });
+
+        localStorage.setItem('authenticated', 'true');
+        localStorage.setItem('user', JSON.stringify(loginResult.user));
+
+        // const userData = await $fetch(`/api/1`, {});
+        // console.log(userData)
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
 </script>
 
 <style scoped>
