@@ -7,7 +7,9 @@
             <img class="picture" src="@/public/test-image.jpg">
         </div>
         <div class="column-2">
-            <p class="description">lorem larem lurem</p>
+            <p>lorem larem lurem DESCRIPTION</p>
+            <p>Oppas of huisdier</p>
+            <p>Dier</p>
         </div>
     </NuxtLink>
 </template>
@@ -28,6 +30,8 @@
 
 .column-2 {
     display: flex;
+    flex-direction: column;
+    gap: 5px;
     max-width: 500px;
     text-wrap: wrap;
 }

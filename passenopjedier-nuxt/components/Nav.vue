@@ -22,7 +22,7 @@
         <button class="close-button" @click="closeSidemenu()">&times;</button>
         <ul>
             <li v-for="item in navList2Items" :key="item"><NuxtLink :to="item.href">{{ item.text }}</NuxtLink></li>
-            <li v-if="loggedIn"><button @click="logOut">Log out</button></li>
+            <li v-if="loggedIn"><button class="logout-btn" @click="logOut">Log out</button></li>
         </ul>
     </aside>
 </template>
@@ -41,7 +41,7 @@ const navList2Items = ref([
 ])
 
 const accountHref = ref({
-    href: 'account-[]'
+    href: '/account'
 })
 const profilePicture = ref('');
 const loggedIn = ref(false)
@@ -63,7 +63,7 @@ const getProfilePicture = async () => {
         const user = ref(JSON.parse(localStorage.getItem('user')));
         const profilePictureUrl = ref(user.value.profile_picture);
 
-        const userData = await $fetch(`/api/${profilePictureUrl.value}`, {});
+        const userData = await $fetch(`/api/user-picture/${profilePictureUrl.value}`, {});
 
         const blob = new Blob([userData]);
         profilePicture.value = URL.createObjectURL(blob);
@@ -227,6 +227,10 @@ aside li {
     margin: 10px 15px;
     padding: 8px 15px;
     transition: 0.7s;
+}
+
+.logout-btn {
+    padding: 0;
 }
 
 aside li:hover {
