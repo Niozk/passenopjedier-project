@@ -38,6 +38,17 @@ class UserController extends Controller
         return response()->json(null, 204);
     }
 
+    public function profilePicture($filename)
+    {
+        $path = public_path('uploads/profile-pictures/' . $filename);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+    
+        return response()->file($path);
+    }
+
     public function register(Request $request)
     {
         $validatedData = $request->validate([

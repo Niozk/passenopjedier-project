@@ -18,32 +18,11 @@ use App\Http\Controllers\PetSittingRequestController;
 */
 
 Route::resource('users', UserController::class);
+Route::get('/uploads/profile-pictures/{filename}', [UserController::class, 'profilePicture']);
 Route::post('/users/register', [UserController::class, 'register']);
 Route::post('/users/login', [UserController::class, 'login']);
 
 Route::get('/pet-sitting-requests', [PetSittingRequestController::class, 'index']);
 Route::get('/pet-sitting-requests/{id}', [PetSittingRequestController::class, 'show']);
+Route::get('/uploads/pet-sitting-request/{filename}', [PetSittingRequestController::class, 'picture']);
 Route::post('/pet-sitting-requests/post', [PetSittingRequestController::class, 'store']);
-
-
-//images
-
-Route::get('/uploads/profile-pictures/{filename}', function ($filename) {
-    $path = public_path('uploads/profile-pictures/' . $filename);
-
-    if (!file_exists($path)) {
-        abort(404);
-    }
-
-    return response()->file($path);
-});
-
-Route::get('/uploads/pet-sitting-request/{filename}', function ($filename) {
-    $path = public_path('uploads/pet-sitting-request/' . $filename);
-
-    if (!file_exists($path)) {
-        abort(404);
-    }
-
-    return response()->file($path);
-});

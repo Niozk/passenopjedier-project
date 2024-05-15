@@ -68,15 +68,6 @@ class PetSittingRequestController extends Controller
             'picture' => 'nullable|mimes:jpeg,png,jpg',
         ]);
 
-        // if ($request->hasFile('picture')) {
-        //     $file = $request->file('picture');
-        //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $path = 'uploads/pet-sitting/';
-        //     $file->move(public_path($path), $filename);
-        //     $validatedData['picture'] = $path . $filename;
-        // }
-
-        
         $petSittingRequest->update($validatedData);
 
         return response()->json($petSittingRequest, 200);
@@ -87,5 +78,16 @@ class PetSittingRequestController extends Controller
         $petSittingRequest = PetSittingRequest::findOrFail($id);
         $petSittingRequest->delete();
         return response()->json(null, 204);
+    }
+
+    public function picture($filename)
+    {
+        $path = public_path('uploads/pet-sitting-request/' . $filename);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+    
+        return response()->file($path);
     }
 }
