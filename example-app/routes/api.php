@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PetSittingRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,6 @@ Route::get('/uploads/profile-pictures/{filename}', function ($filename) {
 
     return response()->file($path);
 });
+
+Route::get('/pet-sitting-requests', [PetSittingRequestController::class, 'index']);
+Route::post('/pet-sitting-requests/post', [PetSittingRequestController::class, 'store']);

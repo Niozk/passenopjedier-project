@@ -7,28 +7,24 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    // Retrieve all
     public function index()
     {
         $users = User::all();
         return response()->json($users);
     }
 
-    // Create
     public function store(Request $request)
     {
         $user = User::create($request->all());
         return response()->json($user, 201);
     }
 
-    // Retrieve single
     public function show($id)
     {
         $user = User::findOrFail($id);
         return response()->json($user);
     }
 
-    // Update
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -36,7 +32,6 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    // Delete
     public function destroy($id)
     {
         User::findOrFail($id)->delete();

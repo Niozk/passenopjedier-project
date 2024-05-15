@@ -1,26 +1,25 @@
 <template>
     <div class="request-container">
         <h1>Oppas aanvragen</h1>
-        <form action="#">
+        <form @submit.prevent="submitForm">
             <div class="form-section">
-                <q-input filled size="30px" label="Naam"/>
-                <q-input filled size="30px" label="Leeftijd" type="number"/>
+                <q-input v-model="formData.name" filled size="30px" label="Naam"/>
+                <q-input v-model="formData.age" filled size="30px" label="Leeftijd" type="number"/>
             </div>
             <div class="form-section">
-                <q-input filled size="25px" label="Dier"/>
-                <q-input filled size="25px" label="Ras"/>
+                <q-input v-model="formData.species" filled size="25px" label="Dier"/>
+                <q-input v-model="formData.breed" filled size="25px" label="Ras"/>
             </div>
             <div class="form-section">
-                <q-input filled size="25px" label="Start Datum" type="date"/>
-                <q-input filled size="25px" label="Eind Datum" type="date"/>
-                <q-input filled size="25px" label="Prijs per uur" type="number"/>
+                <q-input v-model="formData.startDate" filled size="25px" label="Start Datum" type="date"/>
+                <q-input v-model="formData.endDate" filled size="25px" label="Eind Datum" type="date"/>
+                <q-input v-model="formData.hourlyRate" filled size="25px" label="Prijs per uur" type="number"/>
             </div>
             <div class="form-section">
-                <q-input filled max-width="600px" label="Beschrijving" type="textarea"/>
+                <q-input v-model="formData.description" filled max-width="600px" label="Beschrijving" type="textarea"/>
             </div>
             <div class="upload-container">
-                <img src="@/public/test-image.jpg">
-                <q-file outlined label="Upload foto">
+                <q-file v-model="formData.picture" outlined label="Upload foto">
                     <template v-slot:prepend>
                         <q-icon name="attach_file" />
                     </template>
@@ -32,6 +31,48 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+const formData = ref({
+    name: '',
+    age: 0,
+    species: '',
+    breed: '',
+    startDate: null,
+    endDate: null,
+    hourlyRate: 0,
+    description: '',
+
+    picture: null
+});
+
+const submitForm = async () => {
+    const data = new FormData();
+    const user = ref(JSON.parse(localStorage.getItem('user')));
+    const id = ref(user.value.id);
+    
+    data.append('user_id', id.value);
+
+    data.append('pet_name', formData.value.name);
+    data.append('age', formData.value.age);
+    data.append('species', formData.value.species);
+    data.append('breed', formData.value.breed);
+    data.append('start_date', formData.value.startDate);
+    data.append('end_date', formData.value.endDate);
+    data.append('hourly_rate', formData.value.hourlyRate);
+    data.append('description', formData.value.description);
+
+    if (formData.value.picture != null) {
+        data.append('picture', formData.value.picture);
+    }
+
+    await $fetch('/api/petSittingRequest', {
+        method: 'POST',
+        body: data,
+    })
+
+    // return navigateTo('/') //verander dit dat naar ad gaat
+};
 </script>
 
 <style scoped>
@@ -67,10 +108,6 @@ form {
     display: flex;
     align-items: center;
     gap: 30px;
-}
-
-.upload-container img {
-    max-width: 300px;
 }
 
 @media only screen 

@@ -25,7 +25,7 @@ const getUserData = async () => {
         const user = ref(JSON.parse(localStorage.getItem('user')));
         const id = ref(user.value.id);
 
-        console.log(id.value)
+        console.log(id.value);
         userData.value = await $fetch(`/api/user/${id.value}`, {});
         console.log(userData.value);
     } catch (error) {

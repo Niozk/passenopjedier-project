@@ -10,6 +10,7 @@ class PetSittingRequest extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'pet_name',
         'species',
         'breed',
