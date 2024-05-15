@@ -1,48 +1,44 @@
 <template>
     <section class="container">
         <div class="ad-head">
-            <h1 class="name">Naam</h1>
-            <img class="picture" src="@/public/test-image.jpg">
+            <h1 class="name">{{ adData.pet_name }}</h1>
+            <img class="picture" :src="picture">
         </div>
         <div class="ad-body">
             <div class="ad-detail">
                 <div class="ad-detail-text">
                     <h2>Dier</h2>
-                    <p>yo</p>
+                    <p>{{ adData.species }}</p>
                 </div>
                 <div class="ad-detail-text">
                     <h2>Ras</h2>
-                    <p>yo</p>
+                    <p>{{ adData.breed }}</p>
                 </div>
             </div>
             <div class="ad-detail">
                 <div class="ad-detail-text">
                     <h2>Leeftijd</h2>
-                    <p>yo</p>
+                    <p>{{ adData.age }}</p>
                 </div>
                 <div class="ad-detail-text">
                     <h2>Prijs per uur</h2>
-                    <p>yo</p>
+                    <p>{{ adData.hourly_rate }}</p>
                 </div>
             </div>
             <div class="ad-detail">
                 <div class="ad-detail-text">
                     <h2>Start datum </h2>
-                    <p>yo</p>
+                    <p>{{ adData.start_date }}</p>
                 </div>
                 <div class="ad-detail-text">
                     <h2>Eind datum</h2>
-                    <p>yo</p>
+                    <p>{{ adData.end_date }}</p>
                 </div>
             </div>
             <div class="ad-detail">
                 <div class="ad-detail-text">
                     <h2>Beschrijving</h2>
-                    <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Consequuntur dolorum officia alias quibusdam explicabo impedit exercitationem, 
-                        et voluptatem minima sit deleniti optio obcaecati. Mollitia quos ipsa, quia a 
-                        corporis iure.
-                    </p>
+                    <p> {{ adData.description }} </p>
                 </div>
             </div>
             <ReviewModal />
@@ -51,6 +47,31 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+const route = useRoute()
+const adData = ref('');
+const picture = ref('');
+
+onMounted(() => {
+    getAdData()
+});
+
+const getAdData = async () => {
+    try {
+        const id = ref(route.params.id);
+        console.log(id.value);
+
+        adData.value = await $fetch(`/api/pet-sitting-request/${id.value}`, {});
+        console.log(adData.value);
+
+        const pictureUrl = await $fetch(`/api/pet-sitting-request-picture/${adData.value.picture}`, {});
+        const blob = new Blob([pictureUrl]);
+        picture.value = URL.createObjectURL(blob);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
 </script>
 
 <style scoped>
@@ -73,7 +94,8 @@
 }
 
 .picture {
-    max-width: 400px;
+    max-width: 300px;
+    max-height: 300px;
 }
 
 .ad-body {

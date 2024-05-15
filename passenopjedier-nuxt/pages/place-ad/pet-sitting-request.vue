@@ -42,7 +42,6 @@ const formData = ref({
     endDate: null,
     hourlyRate: 0,
     description: '',
-
     picture: null
 });
 
@@ -71,7 +70,7 @@ const submitForm = async () => {
         body: data,
     })
 
-    // return navigateTo('/') //verander dit dat naar ad gaat
+    return navigateTo('/')
 };
 </script>
 
