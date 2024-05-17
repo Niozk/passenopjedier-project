@@ -4,12 +4,6 @@
         <p>email: {{ userData.email }}</p>
         <p>Datum account gecreërd: {{ userData.created_at }}</p>
     </section>
-    <section class="reviews">
-        <div class="review-post">
-            <p class="review-name">naam</p>
-            <p>lorem REVIEW REVIEW REVIEW lorem</p>
-        </div>
-    </section>
 </template>
 
 <script setup>
@@ -45,26 +39,6 @@ const getUserData = async () => {
     max-width: 500px;
     text-align: center;
     border: solid 1px var(--letter-color-dark);
-}
-
-.reviews {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin: 50px auto 0 auto;
-    max-width: 500px;
-    border: solid 1px var(--letter-color-dark);
-}
-
-.review-post {
-    display: flex;
-    flex-direction: column;
-}
-
-.review-name {
-    font-size: 1.2rem;
-    font-weight: bold;
 }
 
 </style>

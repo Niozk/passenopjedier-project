@@ -43,6 +43,12 @@
             </div>
             <ReviewModal />
         </div>
+        <section class="reviews">
+                <div class="review-post">
+                    <p class="review-name">naam</p>
+                    <p>lorem REVIEW REVIEW REVIEW lorem</p>
+                </div>
+        </section>
     </section>
 </template>
 
@@ -79,7 +85,7 @@ const getAdData = async () => {
 .container {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 50px;
     margin: 50px 0 0 0;
     padding: 0 100px;
 }
@@ -144,6 +150,25 @@ and (max-width: 800px) {
     .ad-detail-text {
         width: unset;
     }
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 500px;
+    border: solid 1px var(--letter-color-dark);
+}
+
+.review-post {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-name {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 </style>

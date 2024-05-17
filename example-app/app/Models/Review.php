@@ -10,7 +10,9 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = [
-        'reviewer_id', 'reviewee_id', 'description', 'date_created',
+        'reviewer_id',
+        'ad_id',
+        'description',
     ];
 
     public function reviewer()
