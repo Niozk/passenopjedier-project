@@ -1,27 +1,60 @@
 <template>
     <div class="container">
         <h1>Oppas worden</h1>
-        <form action="#">
+        <form @submit.prevent="submitForm">
             <div class="form-section">
-                <q-input filled size="30px" label="Naam"/>
+                <q-input v-model="formData.name" filled size="30px" label="Naam"/>
             </div>
             <div class="form-section">
-                <q-input filled max-width="600px" label="Beschrijving" type="textarea"/>
+                <q-input v-model="formData.description" filled max-width="600px" label="Beschrijving" type="textarea"/>
             </div>
-            <div v-for="index in 3" :key="index" class="upload-container">
-                <img src="@/public/test-image.jpg">
-                <q-file outlined label="Upload foto">
-                    <template v-slot:prepend>
-                        <q-icon name="attach_file" />
-                    </template>
-                </q-file>
+            <div class="form-section">
+                <q-input v-model="formData.hourlyRate" filled size="25px" label="Prijs per uur" type="number"/>
             </div>
+            <q-file v-model="formData.pictures" multiple counter max-files="3" outlined label="Upload foto">
+                <template v-slot:prepend>
+                    <q-icon name="attach_file" />
+                </template>
+            </q-file>
             <button type="submit">Plaats aanbod</button>
         </form>
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+const formData = ref({
+    name: '',
+    description: '',
+    hourlyRate: 0,
+    pictures: null
+});
+
+const submitForm = async () => {
+    const data = new FormData();
+    const user = ref(JSON.parse(localStorage.getItem('user')));
+    const id = ref(user.value.id);
+    
+    data.append('user_id', id.value);
+
+    data.append('name', formData.value.name);
+    data.append('description', formData.value.description);
+    data.append('hourly_rate', formData.value.hourlyRate);
+
+    if (formData.value.pictures != null) {
+        for (let i = 0; i < formData.value.pictures.length; i++) {
+            data.append('pictures[]', formData.value.pictures[i]);
+        }
+    }
+
+    await $fetch('/api/petSitter', {
+        method: 'POST',
+        body: data,
+    })
+
+    return navigateTo('/')
+};
 </script>
 
 <style scoped>
@@ -57,10 +90,6 @@ form {
     display: flex;
     align-items: center;
     gap: 30px;
-}
-
-.upload-container img {
-    max-width: 150px;
 }
 
 @media only screen 

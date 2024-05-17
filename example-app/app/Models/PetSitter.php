@@ -11,7 +11,9 @@ class PetSitter extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'description',
+        'hourly_rate',
     ];
 
     public function pictures()

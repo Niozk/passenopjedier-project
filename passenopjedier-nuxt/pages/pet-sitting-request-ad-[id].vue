@@ -48,6 +48,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+
 const route = useRoute()
 const adData = ref('');
 const picture = ref('');

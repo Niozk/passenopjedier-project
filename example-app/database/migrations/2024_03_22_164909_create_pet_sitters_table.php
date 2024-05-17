@@ -11,7 +11,9 @@ return new class extends Migration
         Schema::create('pet_sitters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name');
             $table->string('description');
+            $table->decimal('hourly_rate', 8, 2);
             $table->timestamps();
         });
 

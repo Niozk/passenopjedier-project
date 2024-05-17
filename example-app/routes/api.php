@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PetSittingRequestController;
+use App\Http\Controllers\PetSitterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,8 @@ Route::get('/pet-sitting-requests', [PetSittingRequestController::class, 'index'
 Route::get('/pet-sitting-requests/{id}', [PetSittingRequestController::class, 'show']);
 Route::get('/uploads/pet-sitting-request/{filename}', [PetSittingRequestController::class, 'picture']);
 Route::post('/pet-sitting-requests/post', [PetSittingRequestController::class, 'store']);
+
+Route::get('/pet-sitters', [PetSitterController::class, 'index']);
+Route::get('/pet-sitters/{id}', [PetSitterController::class, 'show']);
+Route::get('/pet-sitters/{id}/pictures', [PetSitterController::class, 'pictures']);
+Route::post('/pet-sitters/post', [PetSitterController::class, 'store']);

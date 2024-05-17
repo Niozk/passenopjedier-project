@@ -1,12 +1,12 @@
 <template>
     <section class="container">
         <div class="ad-head">
-            <h1 class="name">Naam</h1>
+            <h1 class="name">{{ adData.name }}</h1>
             <div class="carousel">
                 <q-carousel swipeable animated v-model="slide" thumbnails infinite height="300px">
-                    <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-                    <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-                    <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+                    <q-carousel-slide :name="1" :img-src="pictureUrls[0]" />
+                    <q-carousel-slide :name="2" :img-src="pictureUrls[1]" />
+                    <q-carousel-slide :name="3" :img-src="pictureUrls[2]" />
                 </q-carousel>
             </div>
         </div>
@@ -14,11 +14,11 @@
             <div class="ad-detail">
                 <div class="ad-detail-text">
                     <h2>Beschrijving</h2>
-                    <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Consequuntur dolorum officia alias quibusdam explicabo impedit exercitationem, 
-                        et voluptatem minima sit deleniti optio obcaecati. Mollitia quos ipsa, quia a 
-                        corporis iure.
-                    </p>
+                    <p>{{ adData.description }}</p>
+                </div>
+                <div class="ad-detail-text">
+                    <h2>Prijs per uur</h2>
+                    <p>{{ adData.hourly_rate }}</p>
                 </div>
             </div>
             <ReviewModal />
@@ -27,9 +27,32 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue';
 
+const route = useRoute()
+const adData = ref('');
+const pictureUrls = ref([]);
 const slide = ref(1);
+
+onMounted(() => {
+    getAdData()
+});
+
+const getAdData = async () => {
+    try {
+        const id = ref(route.params.id);
+        console.log(id.value);
+
+        adData.value = await $fetch(`/api/pet-sitter/${id.value}`, {});
+        console.log(adData.value);
+
+        pictureUrls.value = await $fetch(`/api/pet-sitter-pictures/${adData.value.id}`, {});
+        console.log(pictureUrls);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
 </script>
 
 <style scoped>
