@@ -14,7 +14,12 @@ class User extends Authenticatable
     protected $table = 'users';
 
     protected $fillable = [
-        'name', 'email', 'password', 'profile_picture', 'admin', 'blocked',
+        'name',
+        'email',
+        'password',
+        'profile_picture',
+        'admin', 
+        'blocked',
     ];
 
     protected $hidden = [
@@ -24,14 +29,4 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
-
-    public function reviewsWritten()
-    {
-        return $this->hasMany(Review::class, 'reviewer_id');
-    }
-
-    public function reviewsReceived()
-    {
-        return $this->hasMany(Review::class, 'reviewee_id');
-    }
 }

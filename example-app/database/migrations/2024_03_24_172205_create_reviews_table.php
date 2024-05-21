@@ -9,9 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->id('review_id');
+            $table->id();
             $table->foreignId('reviewer_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('ad_id')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('ad_id');
+            $table->char('type', 1); // A = pet sitting request | B = pet sitter
             $table->text('description')->nullable();
             $table->timestamps();
         });

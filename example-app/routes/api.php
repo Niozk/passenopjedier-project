@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PetSittingRequestController;
 use App\Http\Controllers\PetSitterController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,8 @@ Route::get('/pet-sitters', [PetSitterController::class, 'index']);
 Route::get('/pet-sitters/{id}', [PetSitterController::class, 'show']);
 Route::get('/pet-sitters/{id}/pictures', [PetSitterController::class, 'pictures']);
 Route::post('/pet-sitters/post', [PetSitterController::class, 'store']);
+
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+Route::post('/reviews/post', [ReviewController::class, 'store']);
+Route::get('/reviews/{ad_id}/{type}', [ReviewController::class, 'getReviewsByAdAndType']);

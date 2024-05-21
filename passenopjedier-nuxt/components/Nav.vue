@@ -107,7 +107,7 @@ function closeSidemenuOnClick() {
 nav {
     display: flex;
     justify-content: space-between;
-    gap: 75px; 
+    gap: 40px; 
     padding: 10px 50px 10px 100px;
     white-space: nowrap;
 }

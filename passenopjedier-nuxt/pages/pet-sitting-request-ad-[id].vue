@@ -41,13 +41,14 @@
                     <p> {{ adData.description }} </p>
                 </div>
             </div>
-            <ReviewModal />
+            <ReviewModal :adType="adType" />
         </div>
         <section class="reviews">
-                <div class="review-post">
-                    <p class="review-name">naam</p>
-                    <p>lorem REVIEW REVIEW REVIEW lorem</p>
-                </div>
+            <h4>Reviews</h4>
+            <div v-for="review in reviewData" :key="review.id" class="review-post">
+                <p class="review-name">{{ review.reviewer.name }}</p>
+                <p>{{ review.description }}</p>
+            </div>
         </section>
     </section>
 </template>
@@ -58,14 +59,17 @@ import { ref, onMounted } from 'vue';
 const route = useRoute()
 const adData = ref('');
 const picture = ref('');
+const reviewData = ref('');
+const adType = ref('A');
+const id = ref(route.params.id);
 
 onMounted(() => {
     getAdData()
+    getReviewData()
 });
 
 const getAdData = async () => {
     try {
-        const id = ref(route.params.id);
         console.log(id.value);
 
         adData.value = await $fetch(`/api/pet-sitting-request/${id.value}`, {});
@@ -79,6 +83,16 @@ const getAdData = async () => {
         console.error('Error occurred:', error);
     }
 };
+
+const getReviewData = async () => {
+    try {
+        reviewData.value = await $fetch(`/api/review/${id.value}/${adType.value}`, {});
+        console.log(reviewData.value);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+}
 </script>
 
 <style scoped>
@@ -155,8 +169,8 @@ and (max-width: 800px) {
 .reviews {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;
+    padding: 0 10px;
     max-width: 500px;
     border: solid 1px var(--letter-color-dark);
 }
