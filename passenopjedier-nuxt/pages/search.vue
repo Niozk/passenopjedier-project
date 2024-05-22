@@ -6,54 +6,51 @@
                     <q-icon name="search" />
                 </template>
             </q-input>
-            <section class="filters" v-if="!store.isNavVisible">
-                <q-option-group v-model="group" :options="options" color="green" type="checkbox" />
-                <div class="pet-sitting-request-exclusive">
-                    <q-input filled label="Dier" :dense="dense" />
-                    <q-input filled label="Ras" :dense="dense" />
-                    <q-input filled label="Leeftijd" type="number" :dense="dense" />
-                </div>
-            </section>
         </section>
-        <section class="filters" v-if="store.isNavVisible">
+        <section class="filters" >
             <q-option-group v-model="group" :options="options" color="green" type="checkbox" />
             <div class="pet-sitting-request-exclusive">
                 <q-input filled label="Dier" :dense="dense" />
                 <q-input filled label="Ras" :dense="dense" />
                 <q-input filled label="Leeftijd" type="number" :dense="dense" />
+                <p>Prijs:</p>
+                <q-range v-model="standard" label :min="0" :max="500"/>
             </div>
         </section>
         <section class="ads">
             <AdSearch />
             <AdSearch />
-            <!-- miss infinite scroll -->
         </section>
     </section>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { useStore } from '@/stores/store.js'
-
-const store = useStore();
-
-const group = ref(['op1'])
 
 const options = [
     { label: 'Huisdier', value: 'op1' },
     { label: 'Oppas', value: 'op2' }
 ]
+const standard = ref({
+    min: 0,
+    max: 500,
+})
+const group = ref(['op1'])
+
 </script>
 
 <style scoped>
 .container {  
-    display: grid;
-    grid-template-columns: 0.7fr 1.3fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas:
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-auto-rows: 1fr; 
+    grid-template-columns: 0.7fr 1.3fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
         "search-container search-container search-container"
         "filters ads ads"
-        "filters ads ads";
+        "filters ads ads"; 
 }
 
 .search-container {
@@ -71,7 +68,8 @@ const options = [
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 250px;
+    padding: 10px;
+    width: 250px;
     border: 1px solid var(--letter-color-dark);
 
     grid-area: filters;
@@ -98,25 +96,30 @@ const options = [
 @media only screen 
 and (max-width: 950px) {
     .container {  
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
-        grid-template-areas:
+        display: grid;
+        justify-content: center;
+        grid-auto-columns: 1fr; 
+        grid-auto-rows: 1fr; 
+        grid-template-columns: 1fr 1fr 1fr; 
+        grid-template-rows: 0.5fr 0.7fr 1.8fr; 
+        gap: 20px 0px; 
+        grid-template-areas: 
             "search-container search-container search-container"
-            "ads ads ads"
-            "ads ads ads";
+            ". filters ."
+            "ads ads ads"; 
     }
 
     .ads {
         justify-self: center;
-        width: 400px;
+        width: 500px;
         margin: 0;
     }
 }
 
 @media only screen 
-and (max-width: 450px) {
+and (max-width: 500px) {
     .ads {
-        width: 300px;
+        width: 350px;
     }
 }
 </style>
