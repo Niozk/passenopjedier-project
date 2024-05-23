@@ -1,41 +1,96 @@
 <template>
     <section class="container">
         <section class="search-container">
-            <q-input filled size="40px" label="Zoek">
+            <q-input v-model="searchName" filled size="40px" label="Zoek">
                 <template v-slot:append>
                     <q-icon name="search" />
                 </template>
+                <button @click="getAdData" type="submit">Zoek</button>
             </q-input>
         </section>
-        <section class="filters" >
-            <q-option-group v-model="group" :options="options" color="green" type="checkbox" />
-            <div class="pet-sitting-request-exclusive">
-                <q-input filled label="Dier" :dense="dense" />
-                <q-input filled label="Ras" :dense="dense" />
-                <q-input filled label="Leeftijd" type="number" :dense="dense" />
+        <section class="filters">
+            <q-btn-toggle v-model="selectedTypes" @click="getAdData" spread no-caps rounded unelevated :options="options"/>
+            <div class="pet-sitting-request-exclusive" v-if="selectedTypes === 'op1'">
+                <q-input v-model="petSittingRequestFilters.species" filled label="Dier" dense="dense"/>
+                <q-input v-model="petSittingRequestFilters.breed" filled label="Ras" dense="dense"/>
+                <q-input v-model="petSittingRequestFilters.age" filled label="Leeftijd" type="number" dense="dense" />
                 <p>Prijs:</p>
-                <q-range v-model="standard" label :min="0" :max="500"/>
+                <q-range v-model="petSittingRequestFilters.priceRange" label :min="0" :max="500"/>
             </div>
+            <div class="pet-sitter-exclusive" v-if="selectedTypes === 'op2'">
+                <p>Prijs:</p>
+                <q-range v-model="petSitterFilters.priceRange" label :min="0" :max="500"/>
+            </div>
+            <button @click="getAdData" type="submit">Filter</button>
         </section>
-        <section class="ads">
-            <AdSearch />
-            <AdSearch />
-        </section>
+        <!-- <section class="ads">
+            <AdSearch v-for="ad in ads" :key="ad.id" :ad="ad" />
+        </section> -->
     </section>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const options = [
     { label: 'Huisdier', value: 'op1' },
     { label: 'Oppas', value: 'op2' }
 ]
-const standard = ref({
-    min: 0,
-    max: 500,
-})
-const group = ref(['op1'])
+const selectedTypes = ref('op1')
+
+const searchName = ref('');
+const petSittingRequestFilters = ref({
+    species: '',
+    breed: '',
+    age: '',
+    priceRange: {
+        min: 0,
+        max: 500,
+    },
+});
+const petSitterFilters = ref({
+    priceRange: {
+        min: 0,
+        max: 500,
+    },
+});
+
+const ads = ref([]);
+
+onMounted(() => {
+    getAdData()
+});
+
+const getAdData = async () => {
+    try {
+        console.log('trying to get some data...');
+        if (selectedTypes.value === 'op1') {
+            const petSittingRequestQuery = new URLSearchParams({
+                pet_name: searchName.value,
+                species: petSittingRequestFilters.value.species,
+                breed: petSittingRequestFilters.value.breed,
+                age: petSittingRequestFilters.value.age,
+                min_rate: petSittingRequestFilters.value.priceRange.min,
+                max_rate: petSittingRequestFilters.value.priceRange.max,
+            });
+            const response = await fetch(`/api/filter/petSittingRequestFilter?${petSittingRequestQuery.toString()}`);
+            const data = await response.json();
+            console.log('SUCCES! Pet Sitting Request Filtered results:', data);
+            
+        } else if (selectedTypes.value === 'op2') {
+            const petSitterQuery = new URLSearchParams({
+                name: searchName.value,
+                min_rate: petSitterFilters.value.priceRange.min,
+                max_rate: petSitterFilters.value.priceRange.max,
+            });
+            const response = await fetch(`/api/filter/petSitterFilter?${petSitterQuery.toString()}`);
+            const data = await response.json();
+            console.log('SUCCES! Pet Sitter Filtered results:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching filtered results:', error);
+    }
+};
 
 </script>
 
@@ -87,6 +142,12 @@ const group = ref(['op1'])
 }
 
 .pet-sitting-request-exclusive {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pet-sitter-exclusive {
     display: flex;
     flex-direction: column;
     gap: 10px;

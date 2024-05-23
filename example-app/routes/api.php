@@ -38,3 +38,6 @@ Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 Route::post('/reviews/post', [ReviewController::class, 'store']);
 Route::get('/reviews/{ad_id}/{type}', [ReviewController::class, 'getReviewsByAdAndType']);
+
+Route::get('/filter/pet-sitting-requests', [PetSittingRequestController::class, 'filter']);
+Route::get('/filter/pet-sitters', [PetSitterController::class, 'filter']);

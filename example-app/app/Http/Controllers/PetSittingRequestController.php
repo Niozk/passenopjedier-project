@@ -90,4 +90,28 @@ class PetSittingRequestController extends Controller
     
         return response()->file($path);
     }
+
+    public function filter(Request $request)
+    {
+        $query = PetSittingRequest::query();
+
+        if ($request->filled('pet_name')) {
+            $query->whereRaw('LOWER(pet_name) LIKE ?', ['%' . strtolower($request->input('pet_name')) . '%']);
+        }
+        if ($request->filled('species')) {
+            $query->whereRaw('LOWER(species) LIKE ?', ['%' . strtolower($request->input('species')) . '%']);
+        }
+        if ($request->filled('breed')) {
+            $query->whereRaw('LOWER(breed) LIKE ?', ['%' . strtolower($request->input('breed')) . '%']);
+        }
+        if ($request->filled('age')) {
+            $query->where('age', $request->input('age'));
+        }
+        if ($request->filled('min_rate') && $request->filled('max_rate')) {
+            $query->whereBetween('hourly_rate', [$request->input('min_rate'), $request->input('max_rate')]);
+        }
+    
+        return response()->json($query->get());
+    }
+    
 }

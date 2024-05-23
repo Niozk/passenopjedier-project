@@ -64,5 +64,18 @@ class PetSitterController extends Controller
 
         return response()->json($pictureUrls);
     }
+
+    public function filter(Request $request)
+    {
+        $query = PetSitter::query();
+
+        if ($request->filled('name')) {
+            $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($request->input('name')) . '%']);
+        }
+        if ($request->filled('min_rate') && $request->filled('max_rate')) {
+            $query->whereBetween('hourly_rate', [$request->input('min_rate'), $request->input('max_rate')]);
+        }
     
+        return response()->json($query->get());
+    }
 }
