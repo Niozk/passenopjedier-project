@@ -3,11 +3,6 @@
     <h1>Welkom bij passenopjedier.nl!</h1>
     <p>Vind gemakkelijk een oppas voor jouw huisdier</p>
   </section>
-  <section class="top-ads">
-    <AdIndex />
-    <AdIndex />
-    <!-- HARD CODE HIER PAAR TOP POSTS -->
-  </section>
 </template>
 
 <script setup>
@@ -33,17 +28,6 @@
 
 .intro p {
   font-size: 1.6rem;
-}
-
-.top-ads {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  margin: 80px auto 0 auto;
-  padding: 20px;
-  max-width: 500px;
-  border: 1px solid var(--letter-color-dark)
 }
 
 @media only screen 
