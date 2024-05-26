@@ -1,20 +1,25 @@
 <template>
-    <NuxtLink href="#" class="post">
+    <NuxtLink :href="`/pet-sitter-ad-${props.id}`" class="post">
         <div class="column-1">
-            <p class="name">
-                naam post
-            </p>
-            <img class="picture" src="@/public/test-image.jpg">
+            <p class="name">{{ props.name }}</p>
+            <img class="picture" :src="props.picture">
         </div>
         <div class="column-2">
-            <p>lorem larem lurem DESCRIPTION</p>
-            <p>Oppas of huisdier</p>
-            <p>Dier</p>
+            <p>€{{ props.hourlyRate }} per uur</p>
+            <p>{{ props.description }}</p>
         </div>
     </NuxtLink>
 </template>
 
 <script setup>
+const props = defineProps({
+    id: Number,
+    name: String,
+    hourlyRate: String,
+    description: String,
+    picture: String,
+    href: String,
+});
 </script>
 
 <style scoped>
@@ -32,6 +37,7 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    padding: 40px 0 0 0;
     max-width: 500px;
     text-wrap: wrap;
 }

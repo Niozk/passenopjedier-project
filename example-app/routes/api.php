@@ -26,7 +26,7 @@ Route::post('/users/login', [UserController::class, 'login']);
 
 Route::get('/pet-sitting-requests', [PetSittingRequestController::class, 'index']);
 Route::get('/pet-sitting-requests/{id}', [PetSittingRequestController::class, 'show']);
-Route::get('/uploads/pet-sitting-request/{filename}', [PetSittingRequestController::class, 'picture']);
+Route::get('/pet-sitting-requests/{id}/picture', [PetSittingRequestController::class, 'picture']);
 Route::post('/pet-sitting-requests/post', [PetSittingRequestController::class, 'store']);
 
 Route::get('/pet-sitters', [PetSitterController::class, 'index']);

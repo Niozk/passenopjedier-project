@@ -1,7 +1,7 @@
 <template>
     <section class="container">
         <section class="search-container">
-            <q-input v-model="searchName" filled size="40px" label="Zoek">
+            <q-input v-model="searchName" filled size="30px" label="Zoek">
                 <template v-slot:append>
                     <q-icon name="search" />
                 </template>
@@ -23,9 +23,16 @@
             </div>
             <button @click="getAdData" type="submit">Filter</button>
         </section>
-        <!-- <section class="ads">
-            <AdSearch v-for="ad in ads" :key="ad.id" :ad="ad" />
-        </section> -->
+        <section class="ads">
+            <AdPetSittingRequestSearch v-if="selectedTypes === 'op1'" v-for="ad in ads" :key="ad.id" :ad="ad"
+                :id="ad.id" :petName="ad.pet_name" :species="ad.species" :breed="ad.breed" :age="ad.age" 
+                :hourlyRate="ad.hourly_rate" :description="ad.description" :picture="ad.picture"
+            />
+            <AdPetSitterSearch v-if="selectedTypes === 'op2'" v-for="ad in ads" :key="ad.id" :ad="ad"
+                :id="ad.id" :name="ad.name" :hourlyRate="ad.hourly_rate" :description="ad.description" 
+                :picture="findObjectById(petSitterPictureUrls, ad.id).picture"
+            />
+        </section>
     </section>
 </template>
 
@@ -56,6 +63,8 @@ const petSitterFilters = ref({
 });
 
 const ads = ref([]);
+const petSitterPictureUrls = ref([]);
+
 
 onMounted(() => {
     getAdData()
@@ -75,6 +84,7 @@ const getAdData = async () => {
             });
             const response = await fetch(`/api/filter/petSittingRequestFilter?${petSittingRequestQuery.toString()}`);
             const data = await response.json();
+            ads.value = data;
             console.log('SUCCES! Pet Sitting Request Filtered results:', data);
             
         } else if (selectedTypes.value === 'op2') {
@@ -85,6 +95,18 @@ const getAdData = async () => {
             });
             const response = await fetch(`/api/filter/petSitterFilter?${petSitterQuery.toString()}`);
             const data = await response.json();
+            ads.value = data;
+
+            // for (let i = 0; i < ads.value.length; i++) {
+            //     const ad = ads.value[i];
+            //     console.log("Ad ID:", ad.id);
+            //     console.log("Ad Name:", ad.name);
+            //     petSitterPictureUrls.value.push(await $fetch(`/api/pet-sitter-pictures/${ad.id}`, {}))
+            //     console.log(petSitterPictureUrls.value);
+            // }
+
+            fetchPetSitterFirstPicture()
+
             console.log('SUCCES! Pet Sitter Filtered results:', data);
         }
     } catch (error) {
@@ -92,15 +114,35 @@ const getAdData = async () => {
     }
 };
 
+const petSitterObject = ref({});
+const fetchPetSitterFirstPicture = async () => {
+    for (let i = 0; i < ads.value.length; i++) {
+        const ad = ads.value[i];
+        console.log("Ad ID:", ad.id);
+        console.log("Ad Name:", ad.name);
+        
+        try {
+            const pictureUrl = await $fetch(`/api/pet-sitter-pictures/${ad.id}`, {});
+            petSitterObject.value[ad.id] = pictureUrl;
+            petSitterPictureUrls.value.push({ id: ad.id, picture: pictureUrl[0] });
+            console.log(petSitterPictureUrls.value);
+
+        } catch (error) {
+            console.error(`Error fetching picture for ad ${ad.id}:`, error);
+        }
+    }
+    // console.log('testtt1111 ' + findObjectById(petSitterPictureUrls.value, 3).picture)
+};
+
+function findObjectById(arr, id) {
+    return arr.find(obj => obj.id === id);
+}
 </script>
 
 <style scoped>
 .container {  
     display: grid; 
-    grid-auto-columns: 1fr; 
-    grid-auto-rows: 1fr; 
     grid-template-columns: 0.7fr 1.3fr 1fr; 
-    grid-template-rows: 1fr 1fr 1fr; 
     gap: 0px 0px; 
     grid-template-areas: 
         "search-container search-container search-container"
@@ -159,10 +201,9 @@ and (max-width: 950px) {
     .container {  
         display: grid;
         justify-content: center;
-        grid-auto-columns: 1fr; 
-        grid-auto-rows: 1fr; 
+
         grid-template-columns: 1fr 1fr 1fr; 
-        grid-template-rows: 0.5fr 0.7fr 1.8fr; 
+
         gap: 20px 0px; 
         grid-template-areas: 
             "search-container search-container search-container"

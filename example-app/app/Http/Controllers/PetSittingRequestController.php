@@ -80,15 +80,13 @@ class PetSittingRequestController extends Controller
         return response()->json(null, 204);
     }
 
-    public function picture($filename)
+    public function picture($requestId)
     {
-        $path = public_path('uploads/pet-sitting-request/' . $filename);
+        $petSittingRequest = PetSittingRequest::findOrFail($requestId);
 
-        if (!file_exists($path)) {
-            abort(404);
-        }
-    
-        return response()->file($path);
+        $pictureUrl = $petSittingRequest->picture ? asset('uploads/pet-sitting-request/' . $petSittingRequest->picture) : null;
+
+        return response()->json(['url' => $pictureUrl]);
     }
 
     public function filter(Request $request)

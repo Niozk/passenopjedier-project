@@ -2,7 +2,7 @@
     <section class="container">
         <div class="ad-head">
             <h1 class="name">{{ adData.pet_name }}</h1>
-            <img class="picture" :src="picture">
+            <img class="picture" :src="pictureUrl.url">
         </div>
         <div class="ad-body">
             <div class="ad-detail">
@@ -58,7 +58,7 @@ import { ref, onMounted } from 'vue';
 
 const route = useRoute()
 const adData = ref('');
-const picture = ref('');
+const pictureUrl = ref('');
 const reviewData = ref('');
 const adType = ref('A');
 const id = ref(route.params.id);
@@ -75,10 +75,9 @@ const getAdData = async () => {
         adData.value = await $fetch(`/api/pet-sitting-request/${id.value}`, {});
         console.log(adData.value);
 
-        const pictureUrl = await $fetch(`/api/pet-sitting-request-picture/${adData.value.picture}`, {});
-        const blob = new Blob([pictureUrl]);
-        picture.value = URL.createObjectURL(blob);
-
+        pictureUrl.value = await $fetch(`/api/pet-sitting-request-picture/${id.value}`, {});
+        console.log(pictureUrl.value.url);
+        
     } catch (error) {
         console.error('Error occurred:', error);
     }
