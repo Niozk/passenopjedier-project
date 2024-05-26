@@ -40,6 +40,10 @@
                     <h2>Beschrijving</h2>
                     <p> {{ adData.description }} </p>
                 </div>
+                <div class="ad-detail-text">
+                    <h2>Eigenaar</h2>
+                    <p> {{ ownerData.name }} </p>
+                </div>
             </div>
             <ReviewModal :adType="adType" />
         </div>
@@ -59,6 +63,7 @@ import { ref, onMounted } from 'vue';
 const route = useRoute()
 const adData = ref('');
 const pictureUrl = ref('');
+const ownerData = ref('');
 const reviewData = ref('');
 const adType = ref('A');
 const id = ref(route.params.id);
@@ -74,6 +79,9 @@ const getAdData = async () => {
 
         adData.value = await $fetch(`/api/pet-sitting-request/${id.value}`, {});
         console.log(adData.value);
+
+        ownerData.value = await $fetch(`/api/user/${adData.value.user_id}`, {});
+        console.log(ownerData.value);
 
         pictureUrl.value = await $fetch(`/api/pet-sitting-request-picture/${id.value}`, {});
         console.log(pictureUrl.value.url);

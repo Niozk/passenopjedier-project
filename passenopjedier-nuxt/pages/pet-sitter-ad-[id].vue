@@ -21,6 +21,12 @@
                     <p>{{ adData.hourly_rate }}</p>
                 </div>
             </div>
+            <div class="ad-detail">
+                <div class="ad-detail-text">
+                    <h2>Eigenaar</h2>
+                    <p> {{ ownerData.name }} </p>
+                </div>
+            </div>
             <ReviewModal :adType="adType" />
         </div>
         <section class="reviews">
@@ -39,6 +45,7 @@ import { ref, onMounted } from 'vue';
 const route = useRoute()
 const slide = ref(1);
 const adData = ref('');
+const ownerData = ref('');
 const pictureUrls = ref([]);
 const reviewData = ref('');
 const adType = ref('B');
@@ -56,6 +63,9 @@ const getAdData = async () => {
 
         adData.value = await $fetch(`/api/pet-sitter/${id.value}`, {});
         console.log(adData.value);
+
+        ownerData.value = await $fetch(`/api/user/${adData.value.user_id}`, {});
+        console.log(ownerData.value);
 
         pictureUrls.value = await $fetch(`/api/pet-sitter-pictures/${adData.value.id}`, {});
         console.log(pictureUrls);
