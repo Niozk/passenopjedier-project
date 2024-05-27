@@ -1,12 +1,9 @@
 import { defineEventHandler, getQuery } from "h3";
 
 export default defineEventHandler(async (event) => {
-    const query = getQuery(event);
-
     try {   
-        const petSitters = await $fetch('http://localhost:80/api/filter/pet-sitters', {
+        const petSitters = await $fetch('http://localhost:80/api/pet-sitters', {
             method: 'GET',
-            query: query,
         });
         
         return petSitters

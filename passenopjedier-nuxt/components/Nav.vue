@@ -6,6 +6,7 @@
             </ul>
             <ul class="nav-list-2" v-if="store.isNavVisible">
                 <li v-for="item in navList2Items" :key="item"><NuxtLink :to="item.href">{{ item.text }}</NuxtLink></li>
+                <li v-if="userData.admin"><NuxtLink to="/admin">Admin</NuxtLink></li>
             </ul>
             <ul class="nav-list-3" v-if="store.isNavVisible">
                 <li v-if="loggedIn"><button @click="logOut">Log out</button></li>
@@ -37,18 +38,20 @@ const navList2Items = ref([
     {text: 'Home', href: '/'},
     {text: 'Plaats Advertentie', href: '/place-ad'},
     {text: 'Zoek', href: '/search'},
-    {text: 'Login', href: '/login'}
+    {text: 'Login', href: '/login'},
 ])
 
 const accountHref = ref({
     href: '/account'
 })
+const userData = ref('');
 const profilePicture = ref('');
 const loggedIn = ref(false)
 
 onMounted(() => {
     loggedIn.value = localStorage.getItem('authenticated') === 'true';
     closeSidemenuOnClick();
+    getUserData();
     getProfilePicture();
 });
 
@@ -57,6 +60,17 @@ function logOut() {
     localStorage.removeItem('user');
     window.location.reload();
 }
+
+const getUserData = async () => {
+    try {
+        const user = ref(JSON.parse(localStorage.getItem('user')));
+        userData.value = await $fetch(`/api/user/${user.value.id}`, {});
+        console.log(userData.value);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
 
 const getProfilePicture = async () => {
     try {
