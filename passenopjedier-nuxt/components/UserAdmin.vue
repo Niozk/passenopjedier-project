@@ -4,8 +4,8 @@
                 <p class="name">{{ props.name }}</p>
                 <img class="picture" :src="`http://localhost/uploads/profile-pictures/${props.picture}`">
             </div>
-        <div class="column-2">
-            <button @click="delete">delete</button>
+        <div class="column-2" v-if="!props.blocked">
+            <button @click="delete">block</button>
         </div>
     </section>
 </template>
@@ -14,6 +14,7 @@
 const props = defineProps({
     name: String,
     picture: String,
+    blocked: Boolean,
 });
 </script>
 

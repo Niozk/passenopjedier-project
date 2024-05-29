@@ -53,6 +53,14 @@ class PetSitterController extends Controller
 
         return response()->json($petSitter, 201);
     }
+
+    public function destroy($id)
+    {
+        $petSitter = PetSitter::findOrFail($id);
+        $petSitter->delete();
+
+        return response()->json(null, 204);
+    }
     
     public function pictures($sitterId)
     {

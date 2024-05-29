@@ -7,7 +7,7 @@
             </div>
         </NuxtLink>
         <div class="column-2">
-            <button @click="delete">delete</button>
+            <button @click="deletePetSittingRequest">delete</button>
         </div>
     </section>
 </template>
@@ -18,6 +18,16 @@ const props = defineProps({
     petName: String,
     picture: String,
 });
+
+const deletePetSittingRequest = async () => {
+    try {
+        await $fetch(`/api/delete-pet-sitting-request/${props.id}`, {method: 'DELETE',});
+        return location.reload();
+        
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
 </script>
 
 <style scoped>

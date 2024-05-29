@@ -28,11 +28,13 @@ Route::get('/pet-sitting-requests', [PetSittingRequestController::class, 'index'
 Route::get('/pet-sitting-requests/{id}', [PetSittingRequestController::class, 'show']);
 Route::get('/pet-sitting-requests/{id}/picture', [PetSittingRequestController::class, 'picture']);
 Route::post('/pet-sitting-requests/post', [PetSittingRequestController::class, 'store']);
+Route::delete('/pet-sitting-requests/{id}/delete', [PetSittingRequestController::class, 'destroy']);
 
 Route::get('/pet-sitters', [PetSitterController::class, 'index']);
 Route::get('/pet-sitters/{id}', [PetSitterController::class, 'show']);
 Route::get('/pet-sitters/{id}/pictures', [PetSitterController::class, 'pictures']);
 Route::post('/pet-sitters/post', [PetSitterController::class, 'store']);
+Route::delete('/pet-sitters/{id}/delete', [PetSitterController::class, 'destroy']);
 
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
