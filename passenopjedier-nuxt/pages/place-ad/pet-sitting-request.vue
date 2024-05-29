@@ -1,5 +1,5 @@
 <template>
-    <div class="request-container">
+    <div class="request-container" v-if="!currentUser.blocked">
         <h1>Oppas aanvragen</h1>
         <form @submit.prevent="submitForm">
             <div class="form-section">
@@ -28,10 +28,16 @@
             <button type="submit">Plaats aanvraag</button>
         </form>
     </div>
+    <p class="blocked" v-if="currentUser.blocked">You are blocked!</p>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+
+const currentUser = ref('');
+onMounted(() => {
+    getCurrentUser()
+});
 
 const formData = ref({
     name: '',
@@ -44,6 +50,20 @@ const formData = ref({
     description: '',
     picture: null
 });
+
+const getCurrentUser = async () => {
+    try {
+        const user = ref(JSON.parse(localStorage.getItem('user')));
+        const id = ref(user.value.id);
+
+        currentUser.value = await $fetch(`/api/user/${id.value}`, {});
+        if (currentUser.value.blocked) {
+            console.log('BLOCKED')
+        }
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
 
 const submitForm = async () => {
     const data = new FormData();
@@ -124,5 +144,12 @@ and (max-width: 950px) {
         justify-content: center;
         gap: 30px;
     }
+}
+
+.blocked {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 0 0;
+    font-size: 1.4rem;
 }
 </style>

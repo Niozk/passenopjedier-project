@@ -4,18 +4,39 @@
                 <p class="name">{{ props.name }}</p>
                 <img class="picture" :src="`http://localhost/uploads/profile-pictures/${props.picture}`">
             </div>
-        <div class="column-2" v-if="!props.blocked">
-            <button @click="delete">block</button>
+        <div class="column-2">
+            <button @click="blockUserHandler()" v-if="!block">block</button>
+            <button @click="blockUserHandler()" v-if="block">unblock</button>
         </div>
     </section>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 const props = defineProps({
+    id: Number,
     name: String,
     picture: String,
     blocked: Boolean,
 });
+
+const block = ref(props.blocked);
+
+const blockUserHandler = async () => {
+    try {
+        const query = new URLSearchParams({
+            blocked: !block.value,
+        });
+        await fetch(`/api/update-user/${props.id}?${query.toString()}`, {method: 'PUT',});
+        return location.reload();
+            
+    } catch (error) {
+        console.error('Error fetching filtered results:', error);
+    }
+};
+
+
 </script>
 
 <style scoped>

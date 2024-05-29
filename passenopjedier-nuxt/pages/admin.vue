@@ -5,7 +5,7 @@
         <section class="users">
             <p class="title">Gebruikers</p>
             <UserAdmin v-for="user in users" :key="user.id" :user="user"
-                :name="user.name" :picture="user.profile_picture" :blocked="user.blocked"
+                :id="user.id" :name="user.name" :picture="user.profile_picture" :blocked="user.blocked"
             />
         </section>
         <section class="pet-sitting-request-ads">

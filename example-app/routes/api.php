@@ -23,6 +23,7 @@ Route::resource('users', UserController::class);
 Route::get('/uploads/profile-pictures/{filename}', [UserController::class, 'profilePicture']);
 Route::post('/users/register', [UserController::class, 'register']);
 Route::post('/users/login', [UserController::class, 'login']);
+Route::put('/users/{id}', [UserController::class, 'update']);
 
 Route::get('/pet-sitting-requests', [PetSittingRequestController::class, 'index']);
 Route::get('/pet-sitting-requests/{id}', [PetSittingRequestController::class, 'show']);
