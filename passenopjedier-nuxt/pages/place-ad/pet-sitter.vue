@@ -3,10 +3,10 @@
         <h1>Oppas worden</h1>
         <form @submit.prevent="submitForm">
             <div class="form-section">
-                <q-input v-model="formData.name" filled size="30px" label="Naam"/>
+                <q-input v-model="formData.name" filled size="30px" label="Naam" :rules="validationRule"/>
             </div>
             <div class="form-section">
-                <q-input v-model="formData.description" filled max-width="600px" label="Beschrijving" type="textarea"/>
+                <q-input v-model="formData.description" filled max-width="600px" label="Beschrijving" type="textarea" :rules="validationRule"/>
             </div>
             <div class="form-section">
                 <q-input v-model="formData.hourlyRate" filled size="25px" label="Prijs per uur" type="number"/>
@@ -29,6 +29,8 @@ const currentUser = ref('');
 onMounted(() => {
     getCurrentUser()
 });
+
+const validationRule = [val => !!val || 'Veld is verplicht'];
 
 const formData = ref({
     name: '',
@@ -55,6 +57,14 @@ const submitForm = async () => {
     const data = new FormData();
     const user = ref(JSON.parse(localStorage.getItem('user')));
     const id = ref(user.value.id);
+
+    if (
+        formData.value.name === '' ||
+        formData.value.description === ''
+    ) {
+        alert('Vul aub de gevraagde velden in');
+        return;
+    }
     
     data.append('user_id', id.value);
 

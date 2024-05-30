@@ -2,8 +2,8 @@
     <div class="login-container">
         <h1>Login</h1>
         <form @submit.prevent="submitForm">
-            <q-input v-model="formData.email" filled size="40px" label="E-mail" type="email"/>
-            <q-input v-model="formData.password" filled size="40px" label="Wachtwoord" type="password"/>
+            <q-input v-model="formData.email" filled size="40px" label="E-mail" type="email" :rules="validationRule"/>
+            <q-input v-model="formData.password" filled size="40px" label="Wachtwoord" type="password" :rules="validationRule"/>
             <button type="submit">Login</button>
             <NuxtLink to="/register">Nog geen account?</NuxtLink>
         </form>
@@ -18,7 +18,17 @@ const formData = ref({
     password: '',
 });
 
+const validationRule = [val => !!val || 'Veld is verplicht'];
+
 const submitForm = async () => {
+    if (
+        formData.value.email === '' ||
+        formData.value.password === ''
+    ) {
+        alert('Vul aub de gevraagde velden in');
+        return;
+    }
+
     try {
         const loginResult = await $fetch('/api/login', {
             method: 'POST',
@@ -34,6 +44,7 @@ const submitForm = async () => {
         return window.location.reload();
     } catch (error) {
         console.error('Error occurred:', error);
+        alert('Foute inlog gegevens');
     }
 };
 </script>
